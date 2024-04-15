@@ -1,7 +1,7 @@
 import { System } from "cleo";
 import { Globals, HEIGHT, WIDTH } from "./globals";
-import { Text } from "./libs/core/text";
-import { TileSprite } from "./libs/core/tile_sprite";
+import { Text } from "../libs/core/text";
+import { TileSprite } from "../libs/core/tile_sprite";
 
 const lore = `In the waning light of the fifth age
 a desperate struggle breaks out.`;

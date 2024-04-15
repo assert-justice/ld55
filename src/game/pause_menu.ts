@@ -1,6 +1,6 @@
 import { Engine, System } from "cleo";
 import { Globals, WIDTH } from "./globals";
-import { Text } from "./libs/core/text";
+import { Text } from "../libs/core/text";
 
 export class PauseScreen{
     text: Text;

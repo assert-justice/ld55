@@ -1,11 +1,11 @@
 import { Graphics } from "cleo";
-import { Sprite } from "./libs/core/sprite";
+import { Sprite } from "../libs/core/sprite";
 import { Globals, WIDTH } from "./globals";
 import { Minion } from "./minion";
-import { Vec2 } from "./libs/core/la";
+import { Vec2 } from "../libs/core/la";
 import { Boss } from "./boss";
-import { TileSprite } from "./libs/core/tile_sprite";
-import { Text } from "./libs/core/text";
+import { TileSprite } from "../libs/core/tile_sprite";
+import { Text } from "../libs/core/text";
 
 const tutorial = `
 Move with WASD or Left Stick

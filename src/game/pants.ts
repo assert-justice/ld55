@@ -1,8 +1,8 @@
 import { System } from "cleo";
 import { Globals } from "./globals";
-import { Entity } from "./libs/core/entity";
-import { Vec2 } from "./libs/core/la";
-import { TileSprite } from "./libs/core/tile_sprite";
+import { Entity } from "../libs/core/entity";
+import { Vec2 } from "../libs/core/la";
+import { TileSprite } from "../libs/core/tile_sprite";
 import { Minion } from "./minion";
 
 export class Pants extends Entity{

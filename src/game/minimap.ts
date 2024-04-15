@@ -1,6 +1,6 @@
 import { Graphics } from "cleo";
-import { TileSprite } from "./libs/core/tile_sprite";
-import { TextureGen } from "./libs/core/texture_gen";
+import { TileSprite } from "../libs/core/tile_sprite";
+import { TextureGen } from "../libs/core/texture_gen";
 import { Globals } from "./globals";
 import { Minion } from "./minion";
 

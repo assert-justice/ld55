@@ -1,10 +1,10 @@
 import { Graphics, System } from "cleo";
-import { Entity } from "./libs/core/entity";
-import { TileSprite } from "./libs/core/tile_sprite";
-import { VAxis2D, VButton } from "./libs/core/input_manager";
+import { Entity } from "../libs/core/entity";
+import { TileSprite } from "../libs/core/tile_sprite";
+import { VAxis2D, VButton } from "../libs/core/input_manager";
 import { Globals } from "./globals";
-import { Vec2 } from "./libs/core/la";
-import { Camera } from "./libs/core/camera";
+import { Vec2 } from "../libs/core/la";
+import { Camera } from "../libs/core/camera";
 import { Pants } from "./pants";
 import { Pickup } from "./pickup";
 

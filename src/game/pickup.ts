@@ -1,6 +1,6 @@
 import { Globals } from "./globals";
-import { Entity } from "./libs/core/entity";
-import { TileSprite } from "./libs/core/tile_sprite";
+import { Entity } from "../libs/core/entity";
+import { TileSprite } from "../libs/core/tile_sprite";
 
 export class Pickup extends Entity{
     private _type: 'health' | 'mana' | 'xp' = 'health'

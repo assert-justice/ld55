@@ -1,5 +1,5 @@
 import { Globals } from "./globals";
-import { TileSprite } from "./libs/core/tile_sprite";
+import { TileSprite } from "../libs/core/tile_sprite";
 
 export class HealthBar{
     width: number;

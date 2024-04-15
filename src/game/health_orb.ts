@@ -1,5 +1,5 @@
 import { Graphics } from "cleo";
-import { Sprite } from "./libs/core/sprite";
+import { Sprite } from "../libs/core/sprite";
 
 export class HealthOrb{
     spr: Sprite;

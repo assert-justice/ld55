@@ -1,8 +1,8 @@
 import { Engine, Graphics, Window } from "cleo";
-import { Globals, HEIGHT, WIDTH } from "./globals";
-import { Game } from "./game";
-import { SplashScreen } from "./splash_screen";
-import { App } from "./app";
+import { Globals, HEIGHT, WIDTH } from "./game/globals";
+import { Game } from "./game/game";
+import { SplashScreen } from "./game/splash_screen";
+import { App } from "./game/app";
 
 Window.setStats("Denimancers", WIDTH * 2, HEIGHT * 2);
 

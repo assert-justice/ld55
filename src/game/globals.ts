@@ -1,12 +1,12 @@
 import { App } from "./app";
 import { Arena } from "./arena";
 import { Hud } from "./hud";
-import { InputManager, JoyAxis, JoyButton, Key } from "./libs/core/input_manager";
-import { Pool } from "./libs/core/pool";
-import { Text } from "./libs/core/text";
-import { TextureGen } from "./libs/core/texture_gen";
-import { TextureManager } from "./libs/core/texture_manager";
-import { TileSprite } from "./libs/core/tile_sprite";
+import { InputManager, JoyAxis, JoyButton, Key } from "../libs/core/input_manager";
+import { Pool } from "../libs/core/pool";
+import { Text } from "../libs/core/text";
+import { TextureGen } from "../libs/core/texture_gen";
+import { TextureManager } from "../libs/core/texture_manager";
+import { TileSprite } from "../libs/core/tile_sprite";
 import { Minion } from "./minion";
 import { Pants } from "./pants";
 import { Pickup } from "./pickup";

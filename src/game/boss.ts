@@ -1,8 +1,8 @@
 import { Globals } from "./globals";
 import { HealthBar } from "./health_bar";
-import { Entity } from "./libs/core/entity";
-import { Vec2 } from "./libs/core/la";
-import { TileSprite } from "./libs/core/tile_sprite";
+import { Entity } from "../libs/core/entity";
+import { Vec2 } from "../libs/core/la";
+import { TileSprite } from "../libs/core/tile_sprite";
 import { Minion } from "./minion";
 import { Pants } from "./pants";
 

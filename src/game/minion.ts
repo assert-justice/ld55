@@ -1,9 +1,9 @@
 import { System } from "cleo";
 import { Globals } from "./globals";
 import { HealthBar } from "./health_bar";
-import { Entity } from "./libs/core/entity";
-import { Vec2 } from "./libs/core/la";
-import { TileSprite } from "./libs/core/tile_sprite";
+import { Entity } from "../libs/core/entity";
+import { Vec2 } from "../libs/core/la";
+import { TileSprite } from "../libs/core/tile_sprite";
 import { Pickup } from "./pickup";
 
 export class Minion extends Entity{

@@ -2,9 +2,9 @@ import { Graphics, System } from "cleo";
 import { Globals, HEIGHT, WIDTH } from "./globals";
 import { HealthBar } from "./health_bar";
 import { Player } from "./player";
-import { Sprite } from "./libs/core/sprite";
+import { Sprite } from "../libs/core/sprite";
 import { HealthOrb } from "./health_orb";
-import { Text } from "./libs/core/text";
+import { Text } from "../libs/core/text";
 
 export class Hud{
     player: Player;

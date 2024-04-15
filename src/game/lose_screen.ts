@@ -1,7 +1,7 @@
 import { Engine, System } from "cleo";
 import { Globals, WIDTH } from "./globals";
-import { Text } from "./libs/core/text";
-import { TileSprite } from "./libs/core/tile_sprite";
+import { Text } from "../libs/core/text";
+import { TileSprite } from "../libs/core/tile_sprite";
 
 export class LoseScreen{
     text: Text;

@@ -1,4 +1,5 @@
 // import { AnimatedSprite } from "./animated_sprite";
+import { System } from "cleo";
 import { TileSprite } from "./tile_sprite";
 
 type WrapMode = 'none';
@@ -22,11 +23,14 @@ export class Text{
     set wrapMode(mode: WrapMode){this._wrapMode = mode; this.calcCharacters();}
 
     private characters: Char[];
-    constructor(spriteSheet: TileSprite, text: string){
+    offset: number;
+    constructor(spriteSheet: TileSprite, offset: number, text: string){
+        this.offset = offset;
         this.sheet = spriteSheet;
-        this._text = text;
         this.characters = [];
+        this._text = text;
         this.text = text;
+        // this.calcCharacters();
     }
     private calcCharacters(){
         this.characters.length = 0;
@@ -38,11 +42,13 @@ export class Text{
             }
             if(ox + this.sheet.sheet.frameWidth > maxW) maxW = ox + this.sheet.sheet.frameWidth;
             if(oy + this.sheet.sheet.frameHeight > maxH) maxH = oy + this.sheet.sheet.frameHeight;
-            const code = this._text.charCodeAt(i) - 32;
-            if(code >= 0 && code < 105) this.characters.push([code, ox, oy]);
+            const code = this._text.charCodeAt(i) - this.offset;
+            // System.println(this._text.charCodeAt(i) - this.offset);
+            if(code >= 32 && code < 126) this.characters.push([code, ox, oy]);
             ox += this.sheet.sheet.frameWidth;
         }
         this._width = maxW; this._height = maxH;
+        // System.println(this.text.length);
     }
     draw(x: number, y: number){
         for (const [code, ox, oy] of this.characters) {

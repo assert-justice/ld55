@@ -13,6 +13,7 @@ export const Key = {
     space:32,
     tab: 258,
     e: 69,
+    q: 81,
     page_up: 266,
     page_down: 267,
     enter: 257,

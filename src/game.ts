@@ -6,6 +6,9 @@ import { Vec2 } from "./libs/core/la";
 import { Minimap } from "./minimap";
 import { Player } from "./player";
 import { Hud } from "./hud";
+import { Pickup } from "./pickup";
+import { Boss } from "./boss";
+import { Text } from "./libs/core/text";
 
 export class Game{
     camera: Camera;
@@ -13,38 +16,36 @@ export class Game{
     minimap: Minimap;
     hud: Hud;
     constructor(){
+        // this.messageDisplay = new Text(Globals.fontSpr, 0, "");
+        // Globals.setMessage = (str: string)=>{this.setMessage(str)}
+        Globals.pantsPool.clear();
+        Globals.minionsPool.clear();
+        Globals.pickupsPool.clear();
         this.camera = new Camera(WIDTH, HEIGHT);
         this.player = new Player(this.camera);
         Globals.player = this.player;
         Globals.arena = new Arena();
+        this.player.position.x = Globals.arena.width/2;
+        this.player.position.y = Globals.arena.height/2;
         this.minimap = new Minimap(48, 48, Globals.arena.width, Globals.arena.height);
-        this.minimap.drawFn = ()=>{
-            this.minimap.markPoint(this.player.position.x, this.player.position.y, 2);
-            for (const minion of Globals.minionsPool.values()) {
-                this.minimap.markPoint(minion.position.x, minion.position.y, 1);
-            }
-            // this.minimap.markPoint(0, 0, 0);
-        }
         this.hud = new Hud();
-        // const minion = Globals.minionsPool.getNew();
-        // minion.position = new Vec2(100, 100);
+        Globals.hud = this.hud;
     }
     update(dt: number){
         this.player.update(dt);
         Globals.pantsPool.update(dt);
         Globals.minionsPool.update(dt);
+        Globals.pickupsPool.update(dt);
         Globals.arena.update(dt);
+        this.hud.update(dt);
     }
     draw(){
         this.camera.draw(0,0,()=>{
             Globals.arena.draw();
             this.player.draw();
-            for (const minion of Globals.minionsPool.values()) {
-                minion.draw();
-            }
-            for (const pants of Globals.pantsPool.values()) {
-                pants.draw();
-            }
+            Globals.pickupsPool.draw();
+            Globals.minionsPool.draw();
+            Globals.pantsPool.draw();
         });
         this.minimap.draw(0, 0);
         this.hud.draw();

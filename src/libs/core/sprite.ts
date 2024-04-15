@@ -1,7 +1,7 @@
 import { Graphics, System } from "cleo";
 
 export class Sprite{
-    private texture: Graphics.Texture;
+    texture: Graphics.Texture;
     properties: Graphics.TextureParams;
     private _flipH = false;
     set flipH(isFlipped: boolean){

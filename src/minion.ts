@@ -4,6 +4,7 @@ import { HealthBar } from "./health_bar";
 import { Entity } from "./libs/core/entity";
 import { Vec2 } from "./libs/core/la";
 import { TileSprite } from "./libs/core/tile_sprite";
+import { Pickup } from "./pickup";
 
 export class Minion extends Entity{
     spr: TileSprite;
@@ -16,7 +17,8 @@ export class Minion extends Entity{
     seekRange = 500;
     wanderRange = 300;
     playerRange = 300;
-    speed = 350;
+    bossRange = 500;
+    speed = 130;
     state: 'wandering' | 'seeking' | 'idle' = 'wandering';
     dest = new Vec2();
     target?: Entity;
@@ -24,6 +26,10 @@ export class Minion extends Entity{
     health = 10;
     invClock = 0;
     invTime = 0.3;
+    flickerClock = 0;
+    flickerFps = 30;
+    visible = true;
+    damageValue = 8;
     constructor(){
         super();
         this.spr = new TileSprite(Globals.textureManager.get("minion"), this.width, this.height);
@@ -49,6 +55,11 @@ export class Minion extends Entity{
         let distance = Infinity;
         this.target = undefined;
         if(this.purity >= 1){
+            this.target = Globals.arena.boss;
+            if(this.target){
+                distance = this.position.distance(this.target.position);
+                if(distance < this.bossRange) return distance;
+            }
             for (const m of Globals.minionsPool.values()) {
                 const min = m as Minion;
                 const dis = this.position.distance(min.position);
@@ -61,6 +72,7 @@ export class Minion extends Entity{
         else{
             this.target = Globals.player;
             distance = this.position.distance(Globals.player.position);
+            if(distance < this.playerRange) return distance;
             for (const m of Globals.minionsPool.values()) {
                 const min = m as Minion;
                 const dis = this.position.distance(min.position);
@@ -84,7 +96,15 @@ export class Minion extends Entity{
     update(dt: number): void {
         //
         this.animClock -= dt;
-        if(this.invClock > 0) this.invClock -= dt;
+        if(this.invClock > 0) {
+            this.invClock -= dt;
+            if(this.flickerClock > 0) this.flickerClock -= dt;
+            else{
+                this.flickerClock = 1/this.flickerFps;
+                this.visible = !this.visible;
+            }
+        }
+        else this.visible = true;
         if(this.animClock <= 0){
             this.animClock += 1/this.animFps;
             let offset = 0;
@@ -119,7 +139,8 @@ export class Minion extends Entity{
                 velocity = this.target.position.sub(this.position).normalize().mul(this.speed);
                 if(this.position.distance(this.target.position) < 10){
                     const m = this.target as Minion;
-                    m.damage(8);
+                    m.damage(this.damageValue);
+                    if(this.target === Globals.arena.boss) this.cleanup();
                 }
             }
         }
@@ -154,12 +175,33 @@ export class Minion extends Entity{
     }
     init(): void {
         this.purity = 0;
+        this.speed = 130 + Math.random() * 50;
     }
     damage(val: number){
         if(this.invClock > 0) return;
         this.invClock = this.invTime;
         this.health -= val;
         this.healthBar.value = this.health/10;
-        if(this.health < 0) this.cleanup();
+        if(this.health < 0){
+            this.cleanup();
+            // spawn drops
+            const dropChance = 0.3;
+            // if(Math.random() > dropChance) return;
+            const dropTries = 5;
+            let angle = 0;
+            const distance = 16;
+            for(let idx = 0; idx < dropTries; idx++){
+                if(Math.random() > dropChance) continue;
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+                const pickup = Globals.pickupsPool.getNew() as Pickup;
+                pickup.position.x = x; pickup.position.y = y;
+                pickup.position.addMutate(this.position);
+                const types: typeof pickup.type[] = ['health', 'mana', 'xp'];
+                const type = types[Math.floor(Math.random() * 3)];
+                pickup.type = type;
+                angle += Math.PI * 2 / dropTries;
+            }
+        }
     }
 }

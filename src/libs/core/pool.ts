@@ -31,7 +31,7 @@ export class Pool{
         element.pool = this;
     }
     remove(element: Entity): boolean{
-        if(this.data.delete(element)){
+        if(this.data.has(element)){
             this.freeQueue.add(element);
             // this.inactive.add(element);
             return true;

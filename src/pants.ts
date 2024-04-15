@@ -18,7 +18,7 @@ export class Pants extends Entity{
     speed = 100;
     state: 'wander' | 'seek' | 'idle' = 'wander';
     lastState: 'wander' | 'seek' | 'idle' = 'idle';
-    velocity = new Vec2();
+    // velocity = new Vec2();
     dest = new Vec2();
     target?: Entity;
     constructor(){
@@ -86,13 +86,15 @@ export class Pants extends Entity{
                 if(Math.abs(t.purity) >= 1) this.getClosestTarget();
             }
         }
+        // state business logic
+        let velocity = new Vec2();
         if(this.state === 'wander'){
             if(this.lastState !== 'wander') this.randomDest();
             if(this.position.distance(this.dest) < 10){
                 // add oob check
                 this.randomDest();
             }
-            this.velocity = this.dest.sub(this.position).normalize().mulMutate(this.speed);
+            velocity = this.dest.sub(this.position).normalize().mulMutate(this.speed);
         }
         else if(this.state === 'seek'){
             if(this.target){
@@ -101,10 +103,21 @@ export class Pants extends Entity{
                     mob.changePurity(this.mode === 'clean' ? 1 : -1);
                     this.cleanup();
                 }
-                this.velocity = this.target.position.sub(this.position).normalize().mulMutate(this.speed);
+                velocity = this.target.position.sub(this.position).normalize().mulMutate(this.speed);
             }
         }
-        this.position.addMutate(this.velocity.mul(dt));
+        const ent = this.getClosestPants();
+        if(ent){
+            const dis = this.position.distance(ent.position);
+            if(dis < 10){
+                if(dis === 0){
+                    this.position.x += Math.random() * 2 - 1;
+                    this.position.y += Math.random() * 2 - 1;
+                }
+                velocity = ent.position.sub(this.position).normalize().mul(-this.speed)
+            }
+        }
+        this.position.addMutate(velocity.mul(dt));
         if(this.position.x < 0) this.position.x = 0;
         if(this.position.x > Globals.arena.width) this.position.x = Globals.arena.width;
         if(this.position.y < 0) this.position.y = 0;
@@ -115,10 +128,7 @@ export class Pants extends Entity{
         this.spr.draw(this.position.x - this.width/2, this.position.y - this.height/2);
     }
     init(): void {
-        // this.randomDest();
         this.state = 'wander';
-        // this.position.x += (Math.random() * 2 - 1)*10
-        // this.position.y += (Math.random() * 2 - 1)*10
-        // System.println(this.position)
+        this.speed = 100 + Math.random() * 50;
     }
 }

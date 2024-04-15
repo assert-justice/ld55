@@ -5,19 +5,6 @@
 screen size: 640x360
 enemy size: 32x32
 
-bad programmer art:
-
-player is blue square
-mini jeans are small blue circles
-enemies are red squares
-purified enemies are pink
-infected enemies are orange
-boss is white box
-background is brown
-oob is black
-mini white circles are mana orbs
-mini red circles are health orbs
-
 hud is red box for health, blue box for mana
 
 enemies have red over black rectangle for health bars
@@ -34,3 +21,13 @@ ground tile
 
 ui
 health display, mana display, xp bar
+
+## Programming tasks
+
+- leveling up!
+- text renders, shows on title, text scrawl, level up, boss spawn
+- win, lose, and pause screens
+- implement bruiser, vibrate before strike, vibrate after
+- implement ranged minion
+- sfx, player walk, summoning spell, damage, boss summon, item pickup, level up
+- music, loop, into, win, lose

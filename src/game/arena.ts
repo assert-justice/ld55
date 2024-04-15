@@ -99,7 +99,7 @@ export class Arena{
         }
         else{
             this.spawnClock = this.spawnDelay;
-            // this.spawnMinions();
+            this.spawnMinions();
         }
     }
 }

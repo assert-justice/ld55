@@ -5,9 +5,13 @@ import { Entity } from "../libs/core/entity";
 import { Vec2 } from "../libs/core/la";
 import { TileSprite } from "../libs/core/tile_sprite";
 import { Pickup } from "./pickup";
+import { Minion } from "./minion";
+import { Sprite } from "../libs/core/sprite";
+import { Projectile } from "./projectile";
 
-export class Minion extends Entity{
+export class Ranger extends Entity{
     spr: TileSprite;
+    helmet: Sprite;
     width = 32;
     height = 32;
     purity = 0; // 1 is pure, -1 is corrupted, otherwise normal
@@ -18,8 +22,8 @@ export class Minion extends Entity{
     wanderRange = 300;
     playerRange = 300;
     bossRange = 500;
-    speed = 130;
-    state: 'wandering' | 'seeking' | 'idle' = 'wandering';
+    speed = 150;
+    state: 'wandering' | 'seeking' | 'reloading' | 'idle' = 'wandering';
     dest = new Vec2();
     target?: Entity;
     healthBar: HealthBar;
@@ -30,15 +34,19 @@ export class Minion extends Entity{
     flickerFps = 30;
     visible = true;
     damageValue = 8;
+    reloadClock = 0;
+    reloadTime = 1;
+    shootRange = 200;
     constructor(){
         super();
         this.spr = new TileSprite(Globals.textureManager.get("minion"), this.width, this.height);
         this.healthBar = new HealthBar(30, 4, 1, 1);
+        this.helmet = new Sprite(Globals.textureManager.get("helmet"));
     }
     getClosestMinion(){
         let distance = Infinity;
         let ent: Entity | undefined = undefined;
-        for (const m of Globals.minionsPool.values()) {
+        for (const m of Globals.rangersPool.values()) {
             if(m === this) continue;
             const min = m as Minion;
             const dis = this.position.distance(min.position);
@@ -128,7 +136,8 @@ export class Minion extends Entity{
     }
     update(dt: number): void {
         //
-        this.animClock -= dt;
+        if(this.reloadClock > 0) this.reloadClock-=dt;
+        else this.animClock -= dt;
         if(this.invClock > 0) {
             this.invClock -= dt;
             if(this.flickerClock > 0) this.flickerClock -= dt;
@@ -138,15 +147,11 @@ export class Minion extends Entity{
             }
         }
         else this.visible = true;
-        if(this.animClock <= 0){
-            this.animClock += 1/this.animFps;
-            let offset = 0;
-            if(this.purity === 1) offset = 0;
-            else if(this.purity === -1) offset = 4;
-            else offset = 8;
-            this.frame += 1;
-            if(this.frame >= 4) this.frame = 0;
-            this.spr.setTile(offset + this.frame);
+        if(this.animClock <= 0 && this.state !== 'reloading'){
+            this.animClock = 1/this.animFps;
+            if(this.frame >= 3) this.frame = 0;
+            this.frame++;
+            this.setFrame(this.frame);
         }
         let velocity = new Vec2();
         const lastState = this.state;
@@ -155,7 +160,12 @@ export class Minion extends Entity{
             if(this.getClosestTarget() < this.seekRange){this.state = 'seeking'}
         }
         else if(this.state === 'seeking'){
-            if(this.getClosestTarget() > this.seekRange){this.state = 'wandering'}
+            const closest = this.getClosestTarget();
+            if(closest > this.seekRange){this.state = 'wandering';}
+            else if(closest < this.shootRange){this.state = 'reloading';}
+        }
+        else if(this.state === 'reloading'){
+            if(this.reloadClock <= 0) this.state = 'wandering';
         }
         // state business logic
         if(this.state === 'wandering'){
@@ -170,11 +180,21 @@ export class Minion extends Entity{
         else if(this.state === 'seeking'){
             if(this.target) {
                 velocity = this.target.position.sub(this.position).normalize().mul(this.speed);
-                if(this.position.distance(this.target.position) < 10){
-                    const m = this.target as Minion;
-                    m.damage(this.damageValue);
-                    if(this.target === Globals.arena.boss) this.cleanup();
-                }
+                // if(this.position.distance(this.target.position) < 10){
+                //     const m = this.target as Minion;
+                //     m.damage(this.damageValue);
+                //     if(this.target === Globals.arena.boss) this.cleanup();
+                // }
+            }
+        }
+        else if(this.state === 'reloading'){
+            if(lastState !== 'reloading' && this.target){
+                // fire
+                const p = Globals.projectilesPool.getNew() as Projectile;
+                p.purity = this.purity;
+                p.position = this.position.copy();
+                p.velocity = this.target.position.sub(this.position).normalize().mul(300)
+                this.reloadClock = this.reloadTime;
             }
         }
         // avoid
@@ -199,16 +219,26 @@ export class Minion extends Entity{
         this.purity += val;
         if(this.purity > 1) this.purity = 1;
         if(this.purity < -1) this.purity = -1;
+        this.setFrame(this.frame);
     }
     draw(): void {
         const x = this.position.x - this.width/2;
         const y = this.position.y - this.height/2;
         this.spr.draw(x, y);
+        this.helmet.draw(x, y);
         this.healthBar.draw(x,y);
     }
     init(): void {
         this.purity = 0;
         this.speed = 130 + Math.random() * 50;
+    }
+    setFrame(frame: number){
+        let offset = 0;
+        if(this.purity === 1) offset = 0;
+        else if(this.purity === -1) offset = 4;
+        else offset = 8;
+        this.spr.setTile(offset + frame);
+        this.frame = frame;
     }
     damage(val: number){
         if(this.invClock > 0) return;

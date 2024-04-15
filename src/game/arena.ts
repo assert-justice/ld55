@@ -6,6 +6,7 @@ import { Vec2 } from "../libs/core/la";
 import { Boss } from "./boss";
 import { TileSprite } from "../libs/core/tile_sprite";
 import { Text } from "../libs/core/text";
+import { Entity } from "../libs/core/entity";
 
 const tutorial = `
 Move with WASD or Left Stick
@@ -23,9 +24,11 @@ export class Arena{
     spr: Sprite;
     width = 2048;
     height = 2048;
-    spawnClock = 10;
+    spawnClock = 0;
     spawnDelay = 3;
-    spawnSize = 3;
+    minionSpawnSize = 5;
+    rangerSpawnSize = 3;
+    bruiserSpawnSize = 1;
     bossClock = 60;
     boss?: Boss;
     tutorialText: Text;
@@ -56,12 +59,18 @@ export class Arena{
         return true;
     }
     spawnMinions(){
+        const options: [()=>Entity, number][] = [
+            [()=>Globals.minionsPool.getNew(), this.minionSpawnSize],
+            [()=>Globals.rangersPool.getNew(), this.rangerSpawnSize],
+            [()=>Globals.bruisersPool.getNew(), this.bruiserSpawnSize],
+        ];
+        const [spawnFn, spawnSize] = options[Math.floor(Math.random() * options.length)];
         while(true){
             const x = Math.random() * this.width;
             const y = Math.random() * this.height;
             if(Globals.player.position.distance(new Vec2(x,y)) < 500) continue;
-            for(let idx = 0; idx < this.spawnSize; idx++){
-                const minion = Globals.minionsPool.getNew() as Minion;
+            for(let idx = 0; idx < spawnSize; idx++){
+                const minion = spawnFn();
                 minion.position.x = x;
                 minion.position.y = y;
             }    
@@ -90,7 +99,7 @@ export class Arena{
         }
         else{
             this.spawnClock = this.spawnDelay;
-            this.spawnMinions();
+            // this.spawnMinions();
         }
     }
 }

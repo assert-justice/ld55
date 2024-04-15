@@ -1,4 +1,4 @@
-import { Graphics, System } from "cleo";
+import { Audio, Graphics, System } from "cleo";
 import { Entity } from "../libs/core/entity";
 import { TileSprite } from "../libs/core/tile_sprite";
 import { VAxis2D, VButton } from "../libs/core/input_manager";
@@ -41,12 +41,14 @@ export class Player extends Entity{
     healthPickupPower = 20;
     manaPickupPower = 100;
     xpPickupPower = 1;
+    // walkSound: Audio.Sound;
     constructor(camera: Camera){
         super();
         this.spr = new TileSprite(Graphics.Texture.fromFile("./sprites/player.png"), 48, 48);
         this.move = Globals.inputManager.getAxis2D("move");
         this.spawn = Globals.inputManager.getButton("spawn");
         this.camera = camera;
+        // this.walkSound = Audio.Sound.fromFile("sfx/boss.ogg");
         // Globals.setMessage("MESSAGE HERE");
     }
     closestPickup(){
@@ -82,7 +84,10 @@ export class Player extends Entity{
         ];
         this.level++;
         // every nth level up should give summon up
-        const reward = this.level % 4 === 0 ? rewards[5] : rewards[Math.floor(Math.random() * rewards.length - 1)];
+        let idx = 0;
+        if(this.level % 4 === 0) idx = 5;
+        else Math.floor(Math.random() * 5);
+        const reward = rewards[idx];
         // System.println(reward.name);
         Globals.hud.setMessage(reward.name);
         reward.fn();
@@ -97,6 +102,7 @@ export class Player extends Entity{
         }
         this.vel = this.move.getValue();
         if(this.vel.length() > 0){
+            // if(!this.walkSound.isPlaying) this.walkSound.play();
             if(this.animClock > 0) this.animClock-=dt;
             else{
                 this.frame++;

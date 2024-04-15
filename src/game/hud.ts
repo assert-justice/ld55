@@ -41,7 +41,7 @@ export class Hud{
     draw(){
         this.healthOrb.value = this.player.health / this.player.maxHealth;
         // stupid workaround for mana overflow
-        this.manaOrb.value = Math.max(1, this.player.mana / this.player.maxMana);
+        this.manaOrb.value = Math.min(1, this.player.mana / this.player.maxMana);
         this.xpBar.value = this.player.xp / this.player.xpToLevel;
         this.barTex.draw(WIDTH/2 - this.tex.width/2, HEIGHT-this.tex.height);
         this.healthOrb.draw(126, HEIGHT-48);

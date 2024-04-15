@@ -19,8 +19,11 @@ export class Game{
         // this.messageDisplay = new Text(Globals.fontSpr, 0, "");
         // Globals.setMessage = (str: string)=>{this.setMessage(str)}
         Globals.pantsPool.clear();
+        Globals.rangersPool.clear();
+        Globals.bruisersPool.clear();
         Globals.minionsPool.clear();
         Globals.pickupsPool.clear();
+        Globals.projectilesPool.clear();
         this.camera = new Camera(WIDTH, HEIGHT);
         this.player = new Player(this.camera);
         Globals.player = this.player;
@@ -35,7 +38,10 @@ export class Game{
         this.player.update(dt);
         Globals.pantsPool.update(dt);
         Globals.minionsPool.update(dt);
+        Globals.rangersPool.update(dt);
+        Globals.bruisersPool.update(dt);
         Globals.pickupsPool.update(dt);
+        Globals.projectilesPool.update(dt);
         Globals.arena.update(dt);
         this.hud.update(dt);
     }
@@ -45,7 +51,10 @@ export class Game{
             this.player.draw();
             Globals.pickupsPool.draw();
             Globals.minionsPool.draw();
+            Globals.rangersPool.draw();
+            Globals.bruisersPool.draw();
             Globals.pantsPool.draw();
+            Globals.projectilesPool.draw();
         });
         this.minimap.draw(0, 0);
         this.hud.draw();

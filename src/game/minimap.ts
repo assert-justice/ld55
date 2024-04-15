@@ -35,6 +35,14 @@ export class Minimap{
             const m = minion as Minion;
             this.markPoint(minion.position.x, minion.position.y, m.purity>=1?3:1);
         }
+        for (const minion of Globals.rangersPool.values()) {
+            const m = minion as Minion;
+            this.markPoint(minion.position.x, minion.position.y, m.purity>=1?3:1);
+        }
+        for (const minion of Globals.bruisersPool.values()) {
+            const m = minion as Minion;
+            this.markPoint(minion.position.x, minion.position.y, m.purity>=1?3:1);
+        }
         Graphics.popRenderTarget();
         this.tex.draw(x, y);
         this.border.draw(x, y);

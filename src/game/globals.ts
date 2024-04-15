@@ -11,6 +11,9 @@ import { Minion } from "./minion";
 import { Pants } from "./pants";
 import { Pickup } from "./pickup";
 import { Player } from "./player";
+import { Ranger } from "./ranger";
+import { Bruiser } from "./bruiser";
+import { Projectile } from "./projectile";
 
 export const WIDTH = 640;
 export const HEIGHT = 360;
@@ -21,6 +24,9 @@ export class Globals{
     static arena: Arena;
     static player: Player
     static pantsPool: Pool;
+    static projectilesPool: Pool;
+    static rangersPool: Pool;
+    static bruisersPool: Pool;
     static minionsPool: Pool;
     static pickupsPool: Pool;
     static fontSpr: TileSprite;
@@ -55,6 +61,10 @@ export class Globals{
         .add("pickups", "./sprites/pickups.png")
         .add("grass", "./sprites/grass.png")
         .add("boss", "./sprites/boss.png")
+        .add("bruiser", "./sprites/brawler.png")
+        .add("helmet", "./sprites/projectile_hat.png")
+        .add("projectile", "./sprites/projectile.png")
+        .add("spawn_effects", "./sprites/spawn_effects.png")
         .add("font", "./sprites/font.png")
         .add("brawler", "./sprites/brawler.png")
         .add("brawler_attack_energy", "./sprites/brawler_attack_energy.png")
@@ -66,6 +76,9 @@ export class Globals{
         .addTex("pallet", texGen.getTexture())
         this.fontSpr = new TileSprite(Globals.textureManager.get("font"), 5, 7);
         this.pantsPool = new Pool(()=>new Pants());
+        this.projectilesPool = new Pool(()=>new Projectile());
+        this.rangersPool = new Pool(()=>new Ranger());
+        this.bruisersPool = new Pool(()=>new Bruiser());
         this.minionsPool = new Pool(()=>new Minion());
         this.pickupsPool = new Pool(()=>new Pickup());
     }

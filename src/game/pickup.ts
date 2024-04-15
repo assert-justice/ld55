@@ -16,7 +16,7 @@ export class Pickup extends Entity{
     sparkleTime = 3;
     frame = 0;
     animClock = 0;
-    animFps = 20;
+    animFps = 10;
     constructor(){
         super();
         this.spr = new TileSprite(Globals.textureManager.get('pickups'), 16, 16);

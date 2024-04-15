@@ -47,6 +47,26 @@ export class Pants extends Entity{
                 leastDis = dis;
             }
         }
+        for (const m of Globals.rangersPool.values()) {
+            const minion = m as Minion;
+            if(this.mode === 'clean' && minion.purity >= 1) continue;
+            if(this.mode === 'dirty' && minion.purity <= -1) continue;
+            const dis = this.position.distance(m.position);
+            if(dis < this.seekRange && dis < leastDis){
+                this.target = m;
+                leastDis = dis;
+            }
+        }
+        for (const m of Globals.bruisersPool.values()) {
+            const minion = m as Minion;
+            if(this.mode === 'clean' && minion.purity >= 1) continue;
+            if(this.mode === 'dirty' && minion.purity <= -1) continue;
+            const dis = this.position.distance(m.position);
+            if(dis < this.seekRange && dis < leastDis){
+                this.target = m;
+                leastDis = dis;
+            }
+        }
     }
     getClosestPants(){
         let leastDis = Infinity;

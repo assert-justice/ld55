@@ -21,10 +21,13 @@ export class Boss extends Entity{
     healthBar: HealthBar;
     health = 300;
     maxHealth = 300;
+    animClock = 0;
+    animFps = 5;
+    frame = 4;
     constructor(){
         super();
         this.spr = new TileSprite(Globals.textureManager.get("boss"), 128, 64);
-        this.spr.setTile(1);
+        this.spr.setTile(4);
         this.healthBar = new HealthBar(126, 4, 1, 1);
     }
     randomDest(){
@@ -37,6 +40,13 @@ export class Boss extends Entity{
         }
     }
     update(dt: number): void {
+        this.animClock -= dt;
+        if(this.animClock <= 0){
+            this.animClock = 1/this.animFps;
+            this.frame++;
+            if(this.frame >= 8) this.frame = 4;
+            this.spr.setTile(this.frame);
+        }
         this.timeAlive += dt;
         if(this.pantsClock > 0) this.pantsClock -= dt;
         else{

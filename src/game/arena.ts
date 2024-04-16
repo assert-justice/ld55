@@ -73,6 +73,9 @@ export class Arena{
                 const minion = spawnFn();
                 minion.position.x = x;
                 minion.position.y = y;
+                // const spawnEffect = Globals.spawnEffectsPool.getNew();
+                // spawnEffect.position.x = x;
+                // spawnEffect.position.y = y;
             }    
             break;
         }

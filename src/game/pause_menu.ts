@@ -8,7 +8,7 @@ export class PauseScreen{
     delay = 0.1;
     constructor(){
         this.text = new Text(Globals.fontSpr, 0, "Paused");
-        this.controls = new Text(Globals.fontSpr, 0, "Esc or [Start] to resume, Space or [A] to restart, Q or [X] to quit");
+        this.controls = new Text(Globals.fontSpr, 0, "Esc or [Start] to resume,\nSpace or [A] to restart, Q or [X] to quit");
     }
     draw(){
         this.text.draw(WIDTH / 2 - this.text.width / 2, 120);

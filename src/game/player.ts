@@ -110,7 +110,7 @@ export class Player extends Entity{
                 this.animClock = 1/this.animFps;
             }
             let offset = 0;
-            if(Math.abs(this.vel.x) > Math.abs(this.vel.y)){
+            if(Math.abs(this.vel.x) + 0.1 > Math.abs(this.vel.y)){
                 offset = 8;
             }
             else{
@@ -120,7 +120,7 @@ export class Player extends Entity{
             // else if(Math.abs(this.vel.x) > 0) offset = 8;
             this.spr.setTile(offset+this.frame);
             if(this.vel.x < 0) this.spr.flipH = true;
-            if(this.vel.x > 0) this.spr.flipH = false;
+            else if(this.vel.x > 0) this.spr.flipH = false;
         }
         this.position.addMutate(this.vel.mul(dt * this.speed));
         if(this.position.x < 0) this.position.x = 0;

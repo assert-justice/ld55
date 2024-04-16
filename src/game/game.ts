@@ -23,6 +23,7 @@ export class Game{
         Globals.bruisersPool.clear();
         Globals.minionsPool.clear();
         Globals.pickupsPool.clear();
+        Globals.spawnEffectsPool.clear();
         Globals.projectilesPool.clear();
         this.camera = new Camera(WIDTH, HEIGHT);
         this.player = new Player(this.camera);
@@ -42,6 +43,7 @@ export class Game{
         Globals.bruisersPool.update(dt);
         Globals.pickupsPool.update(dt);
         Globals.projectilesPool.update(dt);
+        Globals.spawnEffectsPool.update(dt);
         Globals.arena.update(dt);
         this.hud.update(dt);
     }
@@ -55,6 +57,7 @@ export class Game{
             Globals.bruisersPool.draw();
             Globals.pantsPool.draw();
             Globals.projectilesPool.draw();
+            Globals.spawnEffectsPool.draw();
         });
         this.minimap.draw(0, 0);
         this.hud.draw();

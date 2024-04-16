@@ -199,6 +199,8 @@ export class Minion extends Entity{
         this.purity += val;
         if(this.purity > 1) this.purity = 1;
         if(this.purity < -1) this.purity = -1;
+        const spawnEffect = Globals.spawnEffectsPool.getNew();
+        spawnEffect.position = this.position.copy();
     }
     draw(): void {
         const x = this.position.x - this.width/2;

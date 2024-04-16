@@ -18,9 +18,10 @@ export class Boss extends Entity{
     minionsClock = 5;
     minionsCooldown = 20;
     minionsSpawnCount = 5;
+    bruisersSpawnCount = 3;
     healthBar: HealthBar;
-    health = 300;
-    maxHealth = 300;
+    health = 500;
+    maxHealth = 500;
     animClock = 0;
     animFps = 5;
     frame = 4;
@@ -63,6 +64,11 @@ export class Boss extends Entity{
             this.minionsClock = this.minionsCooldown;
             for(let idx = 0; idx < this.minionsSpawnCount; idx++){
                 const minion = Globals.minionsPool.getNew();
+                const offset = new Vec2(Math.random()*2-1,Math.random()*2-1);
+                minion.position = this.position.add(offset.mul(100));
+            }
+            for(let idx = 0; idx < this.bruisersSpawnCount; idx++){
+                const minion = Globals.bruisersPool.getNew();
                 const offset = new Vec2(Math.random()*2-1,Math.random()*2-1);
                 minion.position = this.position.add(offset.mul(100));
             }

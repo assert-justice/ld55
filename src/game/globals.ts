@@ -14,6 +14,7 @@ import { Player } from "./player";
 import { Ranger } from "./ranger";
 import { Bruiser } from "./bruiser";
 import { Projectile } from "./projectile";
+import { SpawnEffect } from "./spawn_effect";
 
 export const WIDTH = 640;
 export const HEIGHT = 360;
@@ -29,6 +30,7 @@ export class Globals{
     static bruisersPool: Pool;
     static minionsPool: Pool;
     static pickupsPool: Pool;
+    static spawnEffectsPool: Pool;
     static fontSpr: TileSprite;
     static messageDisplay: Text;
     static app: App;
@@ -65,7 +67,7 @@ export class Globals{
         .add("helmet", "./sprites/projectile_hat.png")
         .add("projectile", "./sprites/projectile.png")
         .add("spawn_effects", "./sprites/spawn_effects.png")
-        .add("font", "./sprites/font.png")
+        .add("font", "./sprites/big_font.png")
         .add("brawler", "./sprites/brawler.png")
         .add("brawler_attack_energy", "./sprites/brawler_attack_energy.png")
         .add("blue_orb", "./sprites/blue_orb.png")
@@ -74,12 +76,13 @@ export class Globals{
         .add("xp_bar_back", "./sprites/xp_bar_back.png")
         .add("minimap_outline", "./sprites/minimap_outline.png")
         .addTex("pallet", texGen.getTexture())
-        this.fontSpr = new TileSprite(Globals.textureManager.get("font"), 5, 7);
+        this.fontSpr = new TileSprite(Globals.textureManager.get("font"), 10, 14);
         this.pantsPool = new Pool(()=>new Pants());
         this.projectilesPool = new Pool(()=>new Projectile());
         this.rangersPool = new Pool(()=>new Ranger());
         this.bruisersPool = new Pool(()=>new Bruiser());
         this.minionsPool = new Pool(()=>new Minion());
         this.pickupsPool = new Pool(()=>new Pickup());
+        this.spawnEffectsPool = new Pool(()=>new SpawnEffect());
     }
 }

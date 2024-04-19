@@ -41,14 +41,14 @@ export class Player extends Entity{
     healthPickupPower = 20;
     manaPickupPower = 100;
     xpPickupPower = 1;
-    // walkSound: Audio.Sound;
+    walkSound: Audio.Sound;
     constructor(camera: Camera){
         super();
         this.spr = new TileSprite(Graphics.Texture.fromFile("./sprites/player.png"), 48, 48);
         this.move = Globals.inputManager.getAxis2D("move");
         this.spawn = Globals.inputManager.getButton("spawn");
         this.camera = camera;
-        // this.walkSound = Audio.Sound.fromFile("sfx/boss.ogg");
+        this.walkSound = Audio.Sound.fromFile("sfx/boss_summon.wav", true);
         // Globals.setMessage("MESSAGE HERE");
     }
     closestPickup(){
@@ -138,8 +138,8 @@ export class Player extends Entity{
         }
         const pickup = this.closestPickup();
         if(pickup){
-            if(pickup.type === 'health') this.health = Math.max(this.health+this.healthPickupPower, this.maxHealth);
-            else if(pickup.type === 'mana') this.mana = Math.max(this.mana+this.manaPickupPower, this.maxMana);
+            if(pickup.type === 'health') this.health = Math.min(this.health+this.healthPickupPower, this.maxHealth);
+            else if(pickup.type === 'mana') this.mana = Math.min(this.mana+this.manaPickupPower, this.maxMana);
             else if(pickup.type === 'xp'){
                 this.xp += this.xpPickupPower;
             }

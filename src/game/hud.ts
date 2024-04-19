@@ -39,7 +39,7 @@ export class Hud{
         // this.messageDisplay.text = message;
     }
     draw(){
-        this.healthOrb.value = this.player.health / this.player.maxHealth;
+        this.healthOrb.value = Math.min(1, this.player.health / this.player.maxHealth);
         // stupid workaround for mana overflow
         this.manaOrb.value = Math.min(1, this.player.mana / this.player.maxMana);
         this.xpBar.value = this.player.xp / this.player.xpToLevel;

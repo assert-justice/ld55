@@ -1,4 +1,4 @@
-import { Graphics, System } from "cleo";
+import { Audio, Graphics, System } from "cleo";
 import { Globals, WIDTH } from "./globals";
 import { Text } from "../libs/core/text";
 import { TileSprite } from "../libs/core/tile_sprite";
@@ -9,8 +9,10 @@ export class SplashScreen{
     // controls: Text;
     spr: Sprite;
     delay = 0.1;
+    music: Audio.Sound;
     constructor(){
         this.spr = new Sprite(Graphics.Texture.fromFile("sprites/title.png"));
+        this.music = Audio.Sound.fromFile("music/boss.mp3");
         // this.text = new Text(Globals.fontSpr, 0, "Denimancers: You Reap what you Sew");
         // this.controls = new Text(Globals.fontSpr, 0, "Press Space or [A] to begin...")
     }
@@ -20,6 +22,7 @@ export class SplashScreen{
         // this.controls.draw(WIDTH / 2 - this.controls.width / 2, 140);
     }
     update(dt: number){
+        // if(!this.music.isPlaying) this.music.play();
         while(this.delay > 0) {
             this.delay -= dt;
             return;

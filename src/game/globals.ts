@@ -15,6 +15,7 @@ import { Ranger } from "./ranger";
 import { Bruiser } from "./bruiser";
 import { Projectile } from "./projectile";
 import { SpawnEffect } from "./spawn_effect";
+import { SoundManager } from "./sound_manager";
 
 export const WIDTH = 640;
 export const HEIGHT = 360;
@@ -22,6 +23,7 @@ export const HEIGHT = 360;
 export class Globals{
     static inputManager: InputManager;
     static textureManager: TextureManager;
+    static soundManager: SoundManager;
     static arena: Arena;
     static player: Player
     static pantsPool: Pool;
@@ -76,6 +78,13 @@ export class Globals{
         .add("xp_bar_back", "./sprites/xp_bar_back.png")
         .add("minimap_outline", "./sprites/minimap_outline.png")
         .addTex("pallet", texGen.getTexture())
+        this.soundManager = new SoundManager()
+        .add('damage', 'sfx/damage.wav')
+        .add('level_up', 'sfx/level_up.wav')
+        .add('pickup', 'sfx/pickup.wav')
+        .add('summon', 'sfx/summon.wav')
+        .add('walk', 'sfx/walk.wav')
+        .add('boss_summon', 'sfx/boss_summon.wav')
         this.fontSpr = new TileSprite(Globals.textureManager.get("font"), 10, 14);
         this.pantsPool = new Pool(()=>new Pants());
         this.projectilesPool = new Pool(()=>new Projectile());

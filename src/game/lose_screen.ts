@@ -7,7 +7,7 @@ import { Sprite } from "../libs/core/sprite";
 export class LoseScreen{
     text: Text;
     controls: Text;
-    delay = 0.1;
+    delay = 1;
     spr: Sprite;
     constructor(){
         this.text = new Text(Globals.fontSpr, 0, "You Are Slain");

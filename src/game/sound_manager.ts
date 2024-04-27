@@ -25,4 +25,16 @@ export class SoundManager{
         if(!res) throw `No audio source named '${name}'`;
         return res;
     }
+    stop(){
+        for (const src of this.data.values()) {
+            src.stop();
+        }
+    }
+    shouldPlay(name: string){
+        const src = this.get(name);
+        if(!src.isPlaying){
+            this.stop();
+            src.play();
+        }
+    }
 }

@@ -25,5 +25,6 @@ export class SplashScreen{
             Globals.app.scroll();
             // this.music.stop();
         }
+        Globals.musicManager.shouldPlay("title");
     }
 }

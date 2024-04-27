@@ -1,15 +1,15 @@
 import { Engine, Graphics, Window } from "cleo";
 import { Globals, HEIGHT, WIDTH } from "./game/globals";
-import { Game } from "./game/game";
-import { SplashScreen } from "./game/splash_screen";
 import { App } from "./game/app";
+import { WindowDisplay } from "./game/window_display";
 
-Window.setStats("Denimancers", WIDTH * 2, HEIGHT * 2);
+Window.setStats("Denimancers", WIDTH * 2, HEIGHT * 2, "borderless");
 
 Engine.init = ()=>{
     Globals.init();
     const app = new App();
     const bg = Graphics.Texture.new(WIDTH, HEIGHT);
+    const wd = new WindowDisplay(bg);
     // const game = new Game();
     // const splash = new SplashScreen();
     Engine.update = (dt: number)=>{
@@ -24,6 +24,7 @@ Engine.init = ()=>{
         app.draw();
         // splash.draw();
         Graphics.popRenderTarget();
-        bg.draw(0, 0, {width: Window.width, height: Window.height});
+        wd.draw();
+        // bg.draw(0, 0, {width: Window.width, height: Window.height});
     };
 }

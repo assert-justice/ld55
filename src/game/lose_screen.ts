@@ -1,7 +1,6 @@
 import { Engine, System, Graphics } from "cleo";
 import { Globals, WIDTH } from "./globals";
 import { Text } from "../libs/core/text";
-import { TileSprite } from "../libs/core/tile_sprite";
 import { Sprite } from "../libs/core/sprite";
 
 export class LoseScreen{
@@ -26,5 +25,6 @@ export class LoseScreen{
             this.delay -= dt;
             return;
         }
+        Globals.musicManager.shouldPlay("loss");
     }
 }

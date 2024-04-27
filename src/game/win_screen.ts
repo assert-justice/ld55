@@ -30,5 +30,6 @@ export class WinScreen{
             this.delay -= dt;
             return;
         }
+        Globals.musicManager.shouldPlay("end");
     }
 }

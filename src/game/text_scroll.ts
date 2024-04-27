@@ -30,7 +30,6 @@ export class TextScroll{
     draw(){
         this.spr.draw(0, 0);
         this.text.draw(WIDTH / 2 - this.text.width / 2, this.scrollY);
-        // this is a really ugly hack, you're supposed to be able to render to a render target outside of the draw loop
     }
     update(dt: number){
         if(this.delay > 0) {
@@ -40,11 +39,8 @@ export class TextScroll{
         this.scrollY -= dt * this.scrollSpeed;
         if(this.delay <= 0 && (this.scrollY < -this.text.height || Globals.inputManager.getButton("spawn").isPressed())){
             Globals.musicManager.get("title").stop();
-            // Globals.musicManager.get("fight").play();
             Globals.app.launch();
         }
-        // if(this.scrollY < -this.text.height || Globals.inputManager.getButton("spawn").isPressed()){
-        //     Globals.app.launch();
-        // }
+        Globals.musicManager.shouldPlay("title");
     }
 }

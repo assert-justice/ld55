@@ -1,4 +1,4 @@
-import { System } from "cleo";
+import { Audio, System } from "cleo";
 import { Arena } from "./arena";
 import { Globals, HEIGHT, WIDTH } from "./globals";
 import { Camera } from "../libs/core/camera";
@@ -15,6 +15,7 @@ export class Game{
     player: Player;
     minimap: Minimap;
     hud: Hud;
+    fightMusic: Audio.Sound;
     constructor(){
         // this.messageDisplay = new Text(Globals.fontSpr, 0, "");
         // Globals.setMessage = (str: string)=>{this.setMessage(str)}
@@ -34,6 +35,7 @@ export class Game{
         this.minimap = new Minimap(48, 48, Globals.arena.width, Globals.arena.height);
         this.hud = new Hud();
         Globals.hud = this.hud;
+        this.fightMusic = Globals.musicManager.get("fight");
     }
     update(dt: number){
         this.player.update(dt);
@@ -46,16 +48,17 @@ export class Game{
         Globals.spawnEffectsPool.update(dt);
         Globals.arena.update(dt);
         this.hud.update(dt);
+        if(!this.fightMusic.isPlaying) this.fightMusic.play();
     }
     draw(){
         this.camera.draw(0,0,()=>{
             Globals.arena.draw();
-            this.player.draw();
+            Globals.pantsPool.draw();
             Globals.pickupsPool.draw();
             Globals.minionsPool.draw();
             Globals.rangersPool.draw();
             Globals.bruisersPool.draw();
-            Globals.pantsPool.draw();
+            this.player.draw();
             Globals.projectilesPool.draw();
             Globals.spawnEffectsPool.draw();
         });

@@ -41,11 +41,11 @@ export class Player extends Entity{
     healthPickupPower = 20;
     manaPickupPower = 100;
     xpPickupPower = 1;
-    // walkSound: Audio.Sound;
+    walkSound: Audio.Sound;
     summonSound: Audio.Sound;
-    // levelUpSound: Audio.Sound;
-    // damageSound: Audio.Sound;
-    // pickupSound: Audio.Sound;
+    levelUpSound: Audio.Sound;
+    damageSound: Audio.Sound;
+    pickupSound: Audio.Sound;
     constructor(camera: Camera){
         super();
         this.spr = new TileSprite(Graphics.Texture.fromFile("./sprites/player.png"), 48, 48);
@@ -53,6 +53,10 @@ export class Player extends Entity{
         this.spawn = Globals.inputManager.getButton("spawn");
         this.camera = camera;
         this.summonSound = Globals.soundManager.get("summon");
+        this.walkSound = Globals.soundManager.get("walk");
+        this.levelUpSound = Globals.soundManager.get("level_up");
+        this.pickupSound = Globals.soundManager.get("pickup");
+        this.damageSound = Globals.soundManager.get("damage");
         // this.walkSound = Audio.Sound.fromFile("sfx/walk.wav");
         // this.summonSound = Audio.Sound.fromFile("sfx/summon.wav");
         // this.levelUpSound = Audio.Sound.fromFile("sfx/level_up.wav");
@@ -77,7 +81,7 @@ export class Player extends Entity{
         return pickup;
     }
     levelUp(){
-        // this.levelUpSound.play();
+        this.levelUpSound.play();
         interface LevelReward{name: string, fn: ()=>void};
         // level rewards
         // max health+, max mana+
@@ -112,7 +116,7 @@ export class Player extends Entity{
         }
         this.vel = this.move.getValue();
         if(this.vel.length() > 0){
-            // if(!this.walkSound.isPlaying) this.walkSound.play();
+            if(!this.walkSound.isPlaying) this.walkSound.play();
             if(this.animClock > 0) this.animClock-=dt;
             else{
                 this.frame++;
@@ -140,6 +144,7 @@ export class Player extends Entity{
         this.camera.position = this.position.copy();
         if(this.spawn.isPressed() && this.mana > this.summonCost){
             this.mana -= this.summonCost;
+            if(this.summonSound.isPlaying) this.summonSound.stop();
             this.summonSound.play();
             for(let i = 0; i < this.summonCount; i++){
                 const pants = Globals.pantsPool.getNew() as Pants;
@@ -149,7 +154,7 @@ export class Player extends Entity{
         }
         const pickup = this.closestPickup();
         if(pickup){
-            // this.pickupSound.play();
+            this.pickupSound.play();
             if(pickup.type === 'health') this.health = Math.min(this.health+this.healthPickupPower, this.maxHealth);
             else if(pickup.type === 'mana') this.mana = Math.min(this.mana+this.manaPickupPower, this.maxMana);
             else if(pickup.type === 'xp'){
@@ -178,7 +183,7 @@ export class Player extends Entity{
         if(this.invClock > 0) return;
         this.health -= val;
         this.invClock = this.invTime;
-        // this.damageSound.play();
+        this.damageSound.play();
         if(this.health <= 0) Globals.app.lose();
     }
 }

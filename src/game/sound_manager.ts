@@ -1,12 +1,23 @@
-import { Audio } from "cleo";
+import { Audio, System } from "cleo";
 
 export class SoundManager{
     data: Map<string, Audio.Sound>;
+    private _isMuted = false;
+    get isMuted(){return this._isMuted;}
+    set isMuted(val: boolean){
+        // return this._isMuted;
+        this._isMuted = val;
+        const volume = val?0:1;
+        for (const src of this.data.values()) {
+            src.volume = volume;
+        }
+    }
     constructor(){
         this.data = new Map();
     }
     add(name: string, path: string){
-        this.data.set(name, Audio.Sound.fromFile(path));
+        const src = Audio.Sound.fromFile(path);
+        this.data.set(name, src);
         return this;
     }
     get(name: string){

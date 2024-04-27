@@ -24,6 +24,7 @@ export class Globals{
     static inputManager: InputManager;
     static textureManager: TextureManager;
     static soundManager: SoundManager;
+    static musicManager: SoundManager;
     static arena: Arena;
     static player: Player
     static pantsPool: Pool;
@@ -45,6 +46,9 @@ export class Globals{
         this.inputManager.addButton("spawn").addKey(Key.space).addJoyButton(0, JoyButton.a);
         this.inputManager.addButton("pause").addKey(Key.escape).addJoyButton(0, JoyButton.start);
         this.inputManager.addButton("quit").addKey(Key.q).addJoyButton(0, JoyButton.x);
+        this.inputManager.addButton("fullscreen").addKey(Key.f);
+        this.inputManager.addButton("mute_music").addKey(Key.m);
+        this.inputManager.addButton("mute_sfx").addKey(Key.n);
         const colors: [number, number, number, number][] = [
             [255, 255, 255, 255], // white
             [255, 0, 0, 255], // red
@@ -85,6 +89,12 @@ export class Globals{
         .add('summon', 'sfx/summon.wav')
         .add('walk', 'sfx/walk.wav')
         .add('boss_summon', 'sfx/boss_summon.wav')
+        this.musicManager = new SoundManager()
+        .add("boss", "music/boss.mp3")
+        .add("title", "music/title.mp3")
+        .add("end", "music/end.mp3")
+        .add("loss", "music/loss.mp3")
+        .add("fight", "music/fight.mp3")
         this.fontSpr = new TileSprite(Globals.textureManager.get("font"), 10, 14);
         this.pantsPool = new Pool(()=>new Pants());
         this.projectilesPool = new Pool(()=>new Projectile());

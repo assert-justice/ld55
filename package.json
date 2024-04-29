@@ -6,8 +6,8 @@
   "scripts": {
     "start:win": "cd dist && tsc && cleo.exe",
     "start:linux": "cd ./dist && tsc && ./cleo",
-    "preinstall": "mkdir dist",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pub:win": "butler push ./dist etmm/denimancer:win" 
   },
   "keywords": [],
   "author": "",

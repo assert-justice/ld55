@@ -86,6 +86,7 @@ export class Arena{
         this.boss = new Boss();
         this.boss.position.x = this.width/2;
         this.boss.position.y = this.height/2;
+        this.boss.randomDest();
     }
     update(dt: number){
         if(this.bossClock > 0){
